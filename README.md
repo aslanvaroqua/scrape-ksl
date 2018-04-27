@@ -3,4 +3,4 @@ scrapy-sitemap
 
 Scraping products and auto categorizing to google. 
 
-see scrapy docs. 
+see scrapy docs. its a virtualenv see virtualenv docs
