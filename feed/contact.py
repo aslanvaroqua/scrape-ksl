@@ -8,7 +8,7 @@
 import scrapy
 
 
-class FeedItem(scrapy.Item):
+class Contact(scrapy.Item):
     cell_phone = scrapy.Field()
     home_phone = scrapy.Field()
     category = scrapy.Field()
