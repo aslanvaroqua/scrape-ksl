@@ -15,5 +15,5 @@ class Contact(scrapy.Item):
     sub_category = scrapy.Field()
 
 
-    cell_phone,home_phone,category,sub_category = scrapy.Field()
+    #cell_phone,home_phone,category,sub_category = scrapy.Field()
 
