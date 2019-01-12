@@ -1,0 +1,6 @@
+
+pymongo==3.7.2
+Pillow==5.3.0
+Scrapy==1.5.1
+dnspython==1.16.0
+shub==2.8.1
