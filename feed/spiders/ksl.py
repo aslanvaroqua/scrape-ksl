@@ -7,7 +7,7 @@ class Ksl(SitemapSpider):
     name = "ksl"
     sitemap_urls = ['https://classifieds.ksl.com/sitemap-subcategory.xml']
     sitemap_rules = [
-        ('Baby', 'parse')
+        ('Baby', 'parse'),
         ('Clothing', 'parse')
 
     ]
