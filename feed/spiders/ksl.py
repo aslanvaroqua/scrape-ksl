@@ -12,6 +12,7 @@ class Ksl(SitemapSpider):
     name = "ksl"
     # allowed_domains = ["classifieds.ksl.com"]
     sitemap_urls = ['https://classifieds.ksl.com/sitemap-category.xml']
+    """
     sitemap_rules = [
 ("Baby","parse"),
 ("Media","parse"),
@@ -32,7 +33,7 @@ class Ksl(SitemapSpider):
 ("Weddings","parse"),
 ("Winter","parse"),
 ("Sports","parse"),]
-
+"""
     options = webdriver.ChromeOptions()
     options.add_argument('headless')
     options.add_argument('window-size=1920x1080')
