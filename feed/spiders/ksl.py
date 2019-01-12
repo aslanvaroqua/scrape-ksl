@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from scrapy.spiders import SitemapSpider
-from ..inmate import Inmate
+from ..contact import Contact
 import csv, re
 
 class Ksl(SitemapSpider):
