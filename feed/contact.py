@@ -13,6 +13,10 @@ class Contact(scrapy.Item):
     home_phone = scrapy.Field()
     category = scrapy.Field()
     sub_category = scrapy.Field()
+    city = scrapy.Field()
+    state = scrapy.Field()
+    member_id = scrapy.Field()
+    zip = scrapy.Field()
 
 
     #cell_phone,home_phone,category,sub_category = scrapy.Field()

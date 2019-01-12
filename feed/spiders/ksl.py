@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from scrapy.spiders import SitemapSpider
 from ..contact import Contact
-
+import requests
+from bs4 import BeautifulSoup
 from selenium import webdriver
 import json
 import csv
@@ -10,11 +11,31 @@ import csv
 class Ksl(SitemapSpider):
     name = "ksl"
     # allowed_domains = ["classifieds.ksl.com"]
-    sitemap_urls = ['https://classifieds.ksl.com/sitemap-subcategory.xml']
+    sitemap_urls = ['https://classifieds.ksl.com/sitemap-category.xml']
+    sitemap_rules = [
+("Baby","parse"),
+("Media","parse"),
+("Clothing","parse"),
+("Computers","parse"),
+("Cycling","parse"),
+("Electronics","parse"),
+("Furniture","parse"),
+("General","parse"),
+("Industrial","parse"),
+("Musical","parse"),
+("Instruments","parse"),
+("Outdoors and Sporting","parse"),
+("Recreational","parse"),
+("Vehicles","parse"),
+("Services","parse"),
+("Toys","parse"),
+("Weddings","parse"),
+("Winter","parse"),
+("Sports","parse"),]
 
     options = webdriver.ChromeOptions()
     options.add_argument('headless')
-    # options.add_argument('window-size=1920x1080')
+    options.add_argument('window-size=1920x1080')
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36")
     options.add_argument("--disable-gpu")
     options.add_argument("--disable-logging")
@@ -32,7 +53,7 @@ class Ksl(SitemapSpider):
 
     def parse(self, response):
         self.cnt += 1
-        if self.cnt == 2:
+        if self.cnt >= 2:
             return
         url = response.url
         self.chrome.get(url)
@@ -42,6 +63,7 @@ class Ksl(SitemapSpider):
         pos1 = txt.find('listings:')
         pos2 = txt.find('}],', pos1+1)
         jsontxt = txt[pos1+len('listings:'):pos2+2]
+        #print(jsontxt)
         dddd = json.loads(jsontxt)
         for item in dddd:
             t_row = []
@@ -78,15 +100,16 @@ class Ksl(SitemapSpider):
             if 'zip' in item:
                 contact['zip'] = item['zip']
 
-            yield contact
-
             t_row.append(contact['member_id'])
-            t_row.append(contact['homePhone'])
-            t_row.append(contact['cellPhone'])
+            t_row.append(contact['home_phone'])
+            t_row.append(contact['cell_phone'])
             t_row.append(contact['category'])
             t_row.append(contact['sub_category'])
             t_row.append(contact['city'])
             t_row.append(contact['state'])
             t_row.append(contact['zip'])
             self.writer.writerow(t_row)
+
+            yield contact
         print('----------finished-{}-------------'.format(self.cnt))
+

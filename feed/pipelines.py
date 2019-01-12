@@ -6,7 +6,7 @@
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 from scrapy import log
 import pymongo
-from settings import MONGO_HOST, MONGO_PORT, MONGO_DB, MONGO_COLLECTION
+from .settings import MONGO_HOST, MONGO_PORT, MONGO_DB, MONGO_COLLECTION
 
 
 class FeedsPipeline(object):
@@ -17,5 +17,6 @@ class FeedsPipeline(object):
 
     def process_item(self,item,spider):
         self.collection.insert(dict(item))
+        print(dict(item))
         return item
 
