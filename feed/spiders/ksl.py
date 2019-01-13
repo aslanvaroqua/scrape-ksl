@@ -1,74 +1,79 @@
 # -*- coding: utf-8 -*-
-from scrapy.spiders import SitemapSpider
+import scrapy
 from ..contact import Contact
-import requests
-from bs4 import BeautifulSoup
-from selenium import webdriver
-import json
 import csv
+import json
 
 
-class Ksl(SitemapSpider):
+class KSLSpider(scrapy.Spider):
     name = "ksl"
-    # allowed_domains = ["classifieds.ksl.com"]
-    sitemap_urls = ['https://classifieds.ksl.com/sitemap-category.xml']
+    category = [
+        # "Baby",#
+        # "Books and Media" #
+        # "Clothing and Apparel", #
+        # "Computers",#
+        # "Cycling",#
+        # "Electronics",#
+        # "Furniture",
+        # "General",#
+        # "Industrial",#
+        # "Musical Instruments",#
+        # "Outdoors and Sporting",#
+        "Recreational Vehicles",#
+        # "Tickets", #
+        # "Toys",#
+        # "Weddings",#
+        # "Winter Sports"#
+    ]
 
-    sitemap_rules = [
-("Baby","parse"),
-("Media","parse"),
-("Clothing","parse"),
-("Computers","parse"),
-("Cycling","parse"),
-("Electronics","parse"),
-("Furniture","parse"),
-("General","parse"),
-("Industrial","parse"),
-("Musical","parse"),
-("Instruments","parse"),
-("Outdoors and Sporting","parse"),
-("Recreational","parse"),
-("Vehicles","parse"),
-("Services","parse"),
-("Toys","parse"),
-("Weddings","parse"),
-("Winter","parse"),
-("Sports","parse"),]
-
-    options = webdriver.ChromeOptions()
-    options.add_argument('headless')
-    options.add_argument('window-size=1920x1080')
-    options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36")
-    options.add_argument("--disable-gpu")
-    options.add_argument("--disable-logging")
-    options.add_argument("--log-level=3")
-    prefs = {"profile.managed_default_content_settings.images": 2, 'disk-cache-size': 4096}
-    options.add_experimental_option("prefs", prefs)
-    options.add_argument("--lang=en")
-
-    chrome_path = 'chromedriver'
-    chrome = webdriver.Chrome(chrome_path, options=options)
-    cnt = 0
-
-    resultfile = open('ksl.csv', mode='w', newline='')
+    resultfile = open('small.csv', mode='w', newline='')
     writer = csv.writer(resultfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 
+    def start_requests(self):
+        header_row = ['name', 'home_phone', 'cell_phone', 'category', 'sub_category', 'city', 'state', 'zip']
+        self.writer.writerow(header_row)
+
+        urls = []
+        for cat in self.category:
+            urls.append('https://classifieds.ksl.com/s/{}'.format(cat))
+
+        # urls = [
+        #     'https://classifieds.ksl.com/s/Baby'
+        # ]
+
+        for url in urls:
+            yield scrapy.Request(url=url, callback=self.parse)
+
     def parse(self, response):
-        self.cnt += 1
-        if self.cnt >= 2:
-            return
-        url = response.url
-        self.chrome.get(url)
-        self.chrome.implicitly_wait(2)
-        # soup = BeautifulSoup(self.chrome.page_source, 'html.parser')
-        txt = self.chrome.page_source
+        ttt = response.xpath('//span[@class="total-listings"]').xpath("text()").extract_first()
+        ttt = ttt.replace(',', '').strip()
+        count = int(ttt)
+
+        if count == 0:
+            yield scrapy.Request(url=response.url, dont_filter=True)
+
+        # url = 'https://classifieds.ksl.com/search/index?perPage=96'
+        # yield scrapy.Request(url=url, callback=self.parse_page)
+
+        for page in range(0, int(count/24)):
+            url = 'https://classifieds.ksl.com/search/index?page={}'.format(page)
+            yield scrapy.Request(url=url, callback=self.parse_page)
+
+    def parse_page(self, response):
+        print(response.url)
+        txt = response.text
         pos1 = txt.find('listings:')
-        pos2 = txt.find('}],', pos1+1)
-        jsontxt = txt[pos1+len('listings:'):pos2+2]
-        #print(jsontxt)
+        pos2 = txt.find('}],', pos1 + 1)
+
+        if pos1 == -1 or pos2 == -1:
+            yield scrapy.Request(url=response.url, dont_filter=True)
+
+        jsontxt = txt[pos1 + len('listings:'):pos2 + 2]
         dddd = json.loads(jsontxt)
         for item in dddd:
             t_row = []
-            contact = Contact()
+            contact = {}
+
             contact['cell_phone'] = ''
             if 'cellPhone' in item:
                 contact['cell_phone'] = item['cellPhone']
@@ -76,6 +81,11 @@ class Ksl(SitemapSpider):
             contact['home_phone'] = ''
             if 'homePhone' in item:
                 contact['home_phone'] = item['homePhone']
+
+            # if contact['cellPhone'] == '999-999-9999' or contact['homePhone'] == '999-999-9999':
+            #     continue
+            # if contact['cellPhone'] == '' and contact['homePhone'] == '':
+            #     continue
 
             contact['category'] = ''
             if 'category' in item:
@@ -94,12 +104,14 @@ class Ksl(SitemapSpider):
                 contact['state'] = item['state']
 
             contact['member_id'] = ''
-            if 'memberId' in item:
-                contact['member_id'] = item['memberId']
+            if 'name' in item:
+                contact['member_id'] = item['name']
 
             contact['zip'] = ''
             if 'zip' in item:
                 contact['zip'] = item['zip']
+
+            print(contact)
 
             t_row.append(contact['member_id'])
             t_row.append(contact['home_phone'])
@@ -111,6 +123,27 @@ class Ksl(SitemapSpider):
             t_row.append(contact['zip'])
             self.writer.writerow(t_row)
 
-            yield contact
-        print('----------finished-{}-------------'.format(self.cnt))
+"""
+    Baby
+    Books and Media
+    Clothing
+    Computers
+    Cycling
+    Electronics
+    Furniture
+    General
+    Industrial
+    Musical
+    Instruments
+    Outdoors and Sporting
+    Recreational
+    Vehicles
+    Services
+    Toys
+    Weddings
+    Winter
+    Sports
+
+
+"""
 

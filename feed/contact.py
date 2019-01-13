@@ -15,8 +15,8 @@ class Contact(scrapy.Item):
     sub_category = scrapy.Field()
     city = scrapy.Field()
     state = scrapy.Field()
-    member_id = scrapy.Field()
     zip = scrapy.Field()
+    member_id = scrapy.Field()
 
 
     #cell_phone,home_phone,category,sub_category = scrapy.Field()
