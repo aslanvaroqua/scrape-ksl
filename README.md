@@ -67,6 +67,7 @@ you can set the proxy list in proxy.txt. If you don't they will block you. The o
 ## Fields
 The scraped data contains the following fields (see contact.py):
 
+`
 class Contact(scrapy.Item):
     cell_phone = scrapy.Field()
     home_phone = scrapy.Field()
@@ -76,7 +77,7 @@ class Contact(scrapy.Item):
     state = scrapy.Field()
     zip = scrapy.Field()
     member_id = scrapy.Field()
-
+`
 MONGODB
 
 To enable mongodb... set the settings and uncomment the lines in pipelines. 
@@ -88,5 +89,7 @@ aslan@skylinesdigital.com
 Cheers, 
 
 Aslan Varoqua
+
 Skylines Digital Corp.
+
 Denver, Colorado USA
