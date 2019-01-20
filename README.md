@@ -98,14 +98,16 @@ class Contact(scrapy.Item):
 
 To enable mongodb... set the settings and uncomment the lines in pipelines. 
 
-Any questions, concerns
 
-aslan@skylinesdigital.com
 
-Cheers, 
+
+
+### info
+
+A project by Skyscrapy, a service of Skylines Digital USA [skylinesdigital.com](https://skylinesdigital.com/)
+
 
 Aslan Varoqua
 
-Skylines Digital Corp.
-
 Denver, Colorado USA
+
