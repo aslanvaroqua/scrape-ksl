@@ -25,7 +25,7 @@ to generate an `computers.csv` with data from computers cateogory
 
 
 
-# cloud
+## cloud
 
 projects:
   default: 12345
