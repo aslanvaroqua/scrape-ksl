@@ -67,15 +67,24 @@ you can set the proxy list in proxy.txt. If you don't they will block you. The o
 ## Fields
 The scraped data contains the following fields (see contact.py):
 
+
 `
 class Contact(scrapy.Item):
+
     cell_phone = scrapy.Field()
+    
     home_phone = scrapy.Field()
+    
     category = scrapy.Field()
+    
     sub_category = scrapy.Field()
+    
     city = scrapy.Field()
+    
     state = scrapy.Field()
+   
     zip = scrapy.Field()
+    
     member_id = scrapy.Field()
 `
 
