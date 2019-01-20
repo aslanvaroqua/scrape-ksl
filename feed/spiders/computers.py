@@ -123,27 +123,3 @@ class KSLComputersSpider(scrapy.Spider):
             t_row.append(contact['zip'])
             self.writer.writerow(t_row)
 
-"""
-    Baby
-    Books and Media
-    Clothing
-    Computers
-    Cycling
-    Electronics
-    Furniture
-    General
-    Industrial
-    Musical
-    Instruments
-    Outdoors and Sporting
-    Recreational
-    Vehicles
-    Services
-    Toys
-    Weddings
-    Winter
-    Sports
-
-
-"""
-
