@@ -1,4 +1,4 @@
-# funda-scraper
+# ksl-scraper
 Scraper of the KSL classifieds [classifieds.ksl.com](https://classifieds.ksl.com/), written in Python Scrapy.
 
 ## Basic usage
