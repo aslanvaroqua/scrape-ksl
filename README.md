@@ -78,7 +78,8 @@ class Contact(scrapy.Item):
     zip = scrapy.Field()
     member_id = scrapy.Field()
 `
-MONGODB
+
+## MONGODB
 
 To enable mongodb... set the settings and uncomment the lines in pipelines. 
 
