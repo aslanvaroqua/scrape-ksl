@@ -1,4 +1,4 @@
-<img height="300px" width="auto" src="https://img1.wsimg.com/isteam/ip/d2ec0c86-31b9-4318-b5b7-8df5b0940e94/logo/e417473e-4d57-4cf7-ba9d-ff34d6859768.png" align="center" />
+<img center height="300px" width="auto" src="https://img1.wsimg.com/isteam/ip/d2ec0c86-31b9-4318-b5b7-8df5b0940e94/logo/e417473e-4d57-4cf7-ba9d-ff34d6859768.png" align="center" />
 
 
 Skylines Digital USA 
