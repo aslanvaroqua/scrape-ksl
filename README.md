@@ -26,42 +26,43 @@ to generate an `computers.csv` with data from computers cateogory
 
 
 ## cloud
-
+```
 projects:
   default: 12345
   prod: 33333
 
 requirements:
   file: requirements.txt
+```
 
 In case you use pipenv you may also specify a Pipfile:
 
 ### project_directory/scrapinghub.yml
-
+```
 projects:
    default: 12345 
    prod: 33333
 requirements:
    file: Pipfile
-
+```
 
 ## deploy
 
 
 To deploy a Scrapy project to Scrapy Cloud, navigate into the project’s folder and run:
 
-`
+```
 shub deploy [TARGET]
-`
+```
 
 where [TARGET] is either a project name defined in scrapinghub.yml or a numerical Scrapinghub project ID. If you have configured a default target in your scrapinghub.yml, you can leave out the parameter completely:
 
-`
+```
 $ shub deploy
 Packing version 3af023e-master
 Deploying to Scrapy Cloud project "12345"
 {"status": "ok", "project": 12345, "version": "3af023e-master", "spiders": 1}
-`
+```
 
 Run your spiders at: https://app.scrapinghub.com/p/12345/
 
