@@ -64,7 +64,7 @@ Run your spiders at: https://app.scrapinghub.com/p/12345/
 you can set the proxy list in proxy.txt. If you don't they will block you. The ones provided work as of January 10, 2018. There are free proxy lists you can find online. 
 
 
-### Fields
+## Fields
 The scraped data contains the following fields (see contact.py):
 
 class Contact(scrapy.Item):
